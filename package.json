@@ -1,6 +1,6 @@
 {
   "name": "mediastic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple music auto-tag, without the write part",
   "main": "index.js",
   "scripts": {

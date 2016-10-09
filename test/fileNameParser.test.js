@@ -14,3 +14,7 @@ test('works for `18-davodka_(mentalites_sons_dangereux)-jadhere_plus.mp3`', t =>
 test('works for `Hugo Tsr - Jungle Urbaine.mp3`', t => {
   t.is(parser('Hugo Tsr - Jungle Urbaine.mp3'), 'Jungle Urbaine');
 });
+
+test('works for `06-ACDC-album-back_in_black.flac`', t => {
+  t.is(parser('06-ACDC-album-back_in_black.flac'), 'back in black');
+})

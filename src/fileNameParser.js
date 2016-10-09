@@ -3,5 +3,5 @@ export default (name) => {
   let match = fileRegex.exec(name);
 
   // console.log('m1', match);
-  return match[4].replace('_', ' ').trim();
+  return match[4].replace(/_/g, ' ').trim();
 }

@@ -12,9 +12,9 @@ export default () => {
           },
           json: true
         });
-        // console.log(res);
+
         let item = res.tracks.items[0];
-        // console.log(item);
+
         let data = {
           artistName: item.artists[0].name,
           albumName: item.album.name,

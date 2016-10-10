@@ -8,5 +8,7 @@ export default async (file) => {
 
   let trackTitle = fileNameParser(name);
 
-  return await provider().searchTrack(trackTitle);
+  let res = await provider().searchTrack(trackTitle);
+  res.path = file;
+  return res;
 };

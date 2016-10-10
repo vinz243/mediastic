@@ -18,7 +18,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 exports.default = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(file) {
-    var name, trackTitle;
+    var name, trackTitle, res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -32,9 +32,12 @@ exports.default = function () {
             return (0, _spotify2.default)().searchTrack(trackTitle);
 
           case 4:
-            return _context.abrupt('return', _context.sent);
+            res = _context.sent;
 
-          case 5:
+            res.path = file;
+            return _context.abrupt('return', res);
+
+          case 7:
           case 'end':
             return _context.stop();
         }

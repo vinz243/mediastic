@@ -1,6 +1,6 @@
 {
   "name": "mediastic",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Simple music auto-tag, without the write part",
   "main": "index.js",
   "scripts": {
@@ -13,10 +13,8 @@
   "devDependencies": {
     "ava": "^0.16.0"
   },
-  "babel": {
-  },
-  "ava": {
-  },
+  "babel": {},
+  "ava": {},
   "dependencies": {
     "request": "^2.75.0",
     "request-promise": "^4.1.1"

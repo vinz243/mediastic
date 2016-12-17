@@ -1,14 +1,16 @@
-import fileNameParser from './fileNameParser';
-import provider from './spotify.provider';
+let fileNameParser = require('./fileNameParser');
+let provider = require('./spotify.provider');
 
-export default async (file) => {
+module.exports = function (file) {
   let name = file.replace(/^.*[\\\/]/, '');
 
   // console.log(file, name);
 
   let trackTitle = fileNameParser(name);
-
-  let res = await provider().searchTrack(trackTitle);
-  res.path = file;
-  return res;
+  return new Promise(function(fulfill, reject) {
+  	provider().searchTrack(trackTitle).then(function (res) {
+  		res.path = file;
+  		return fulfill(res);
+  	});
+  });
 };

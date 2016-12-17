@@ -1,9 +1,10 @@
-import request from 'request-promise';
+const request = require('request-promise');
 
-export default () => {
+module.exports = function () {
   return {
-    searchTrack: async (name) => {
-        let res = await request({
+    searchTrack: function (name) {
+      return new Promise(function (fulfill, reject) {
+        request({
           uri: 'https://api.spotify.com/v1/search',
           qs: {
             'q': name,
@@ -11,17 +12,18 @@ export default () => {
             'limit': 1
           },
           json: true
+        }).then(function (res) {
+          let item = res.tracks.items[0];
+
+          let data = {
+            artistName: item.artists[0].name,
+            albumName: item.album.name,
+            duration: item.duration_ms / 1000,
+            trackTitle: item.name
+          };
+          fulfill(data);  
         });
-
-        let item = res.tracks.items[0];
-
-        let data = {
-          artistName: item.artists[0].name,
-          albumName: item.album.name,
-          duration: item.duration_ms / 1000,
-          trackTitle: item.name
-        };
-        return data;
+      });
     }
   };
 }

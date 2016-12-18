@@ -1,3 +1,5 @@
 language: node_js
+before_install:
+  - sudo apt-get install ffmpeg -y
 node_js:
   - "6"

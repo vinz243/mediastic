@@ -1,6 +1,6 @@
 {
   "name": "mediastic",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "Simple music auto-tag, without the write part",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,7 @@
       "stage-2"
     ]
   },
-  "ava": {
-  },
+  "ava": {},
   "dependencies": {
     "fluent-ffmpeg": "^2.1.0",
     "lodash.defaults": "^4.2.0",

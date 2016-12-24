@@ -8,7 +8,7 @@ const defaultOpts = {
   // We can't know which track to choose
   // So we filter them based on their duration
   // Any result which exceeds Math.abs(resultDuration - fileDuration)
-  // will be removed. Duration in seconds
+  // by this value will be removed. Duration in seconds
 
   durationTreshold: 2,
 

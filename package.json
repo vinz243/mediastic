@@ -6,7 +6,7 @@
   "scripts": {
     "dist": "babel --out-dir dist src --presets es2015,es2016,stage-2",
     "start": "babel-node --presets es2015,es2016,stage-2",
-    "test": "ava src -v"
+    "test": "ava src/*.test.js -v"
   },
   "author": "",
   "license": "ISC",
@@ -28,11 +28,6 @@
     ]
   },
   "ava": {
-    "babel": "inherit",
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
   },
   "dependencies": {
     "fluent-ffmpeg": "^2.1.0",

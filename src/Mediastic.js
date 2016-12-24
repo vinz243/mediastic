@@ -17,7 +17,7 @@ Mediastic.tagParser = require('./TagParser.js');
 
 let proto = Mediastic.prototype;
 
-proto.stack = function (meta, next) {
+proto._stack = function (meta, next) {
   next();
 };
 
@@ -26,13 +26,13 @@ proto.use = function (middleware) {
   if (middleware.then)
     throw new Error('Expected a function, but got a Promise');
 
-  this.stack = ((stack) => {
+  this._stack = ((stack) => {
     return (metadata, next) => {
       stack(metadata, () => {
         middleware(metadata, next);
       });
     };
-  })(this.stack);
+  })(this._stack);
 }
 
 proto.call = function(file) {
@@ -42,7 +42,7 @@ proto.call = function(file) {
       let metadata = {
         path: file
       };
-      this.stack(metadata, () => {
+      this._stack(metadata, () => {
         resolve(metadata);
       });
     } catch (err) {
@@ -50,8 +50,9 @@ proto.call = function(file) {
     }
   });
 };
-proto.loadDefaults = function () {
+proto.loadDefaults = function (opts) {
+  opts = opts || {};
   this.use(Mediastic.tagParser());
   this.use(Mediastic.fileNameParser());
-  this.use(Mediastic.spotifyApi());
+  this.use(Mediastic.spotifyApi(opts.spotifyApi));
 };

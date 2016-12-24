@@ -12,7 +12,8 @@ const spot = function (metadata) {
 
 test('finds popular music by its name', async t => {
   const res = await spot({
-    title: 'Radioactive'
+    title: 'Radioactive',
+    album: 'Night Visions'
   });
   t.is(res.title, 'Radioactive');
   t.is(res["artist"], 'Imagine Dragons');
@@ -30,7 +31,22 @@ test('finds good music with similar titles', async t => {
   t.is(res.album, 'Comment c\'est loin');
 });
 
-// test('doesn\'t change metadata if several results', async t => {
-//   const res = await spot({title: 'we'});
-//
-// });
+test('skip not relevant results', async t => {
+  const res = await spot({
+    title: 'We'
+  });
+  t.is(res.title, 'We');
+  t.is(res.album, undefined);
+})
+
+test('does not accept global flag', async t => {
+  t.throws(SpotifyAPI({albumKeywordBlacklist: /test/gi}));
+});
+
+test('finds track by it\'s duration', async t => {
+  const res = await spot({
+    title: 'Weed',
+    duration: 225
+  });
+  t.is(res.title, 'Smoke Some Weed');
+});

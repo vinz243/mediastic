@@ -15,10 +15,11 @@ module.exports = function() {
 
         const tags = data.format.tags;
 
-        metadata.artist  = tags.artist;
-        metadata.album   = tags.album;
-        metadata.title   = tags.title;
-        metadata.track   = tags.track;
+        metadata.artist   = tags.artist;
+        metadata.album    = tags.album;
+        metadata.title    = tags.title;
+        metadata.track    = tags.track;
+        metadata.duration = data.format.duration;
 
         next();
       });

@@ -1,6 +1,37 @@
-const request = require('request-promise');
+const request   = require('request-promise');
+const defaults  = require('lodash.defaults');
+const assert    = require('assert');
 
-module.exports = function () {
+const defaultOpts = {
+  // Duration treshold used to compare tracks
+  // When spotify returns several results for a given query,
+  // We can't know which track to choose
+  // So we filter them based on their duration
+  // Any result which exceeds Math.abs(resultDuration - fileDuration)
+  // will be removed. Duration in seconds
+
+  durationTreshold: 2,
+
+  // When comparing durations, that comparison may only be relevant for
+  // long enough tracks: any result shorter than this value will be accepted
+
+  minimumDuration: 15,
+
+  // Any result which album name matches this
+  // will be filtered out if there are too many results
+  // WARNING: Do not set GLOBAL flag. This will break everything
+
+  albumKeywordBlacklist: /deluxe|renditions/i
+}
+
+
+module.exports = function (opts) {
+
+  const options = defaults(opts, defaultOpts);
+
+  assert(options.albumKeywordBlacklist.flags !== -1);
+  assert(options.albumKeywordBlacklist.test !== undefined);
+
   return function (metadata, next) {
     if (!metadata.title) return next();
     let query = `track:"${metadata.title}"`;
@@ -13,26 +44,38 @@ module.exports = function () {
       qs: {
         'q': query,
         'type': 'track',
-        'limit': 5
+        'limit': 25
       },
       json: true
     }).then(function (res) {
       if (res.tracks.length === 0)
         next();
 
-      let item = res.tracks.items[0];
+      let items = res.tracks.items.filter(function (item) {
+        let length = res.tracks.items.length;
+        let trackDuration = metadata.duration;
+        let resultDuration = item.duration_ms / 1000;
+        return (length == 1)
+                  || !trackDuration
+                  || resultDuration < options.minimumDuration
+                  || Math.abs(trackDuration
+                      - resultDuration) < options.durationTreshold;
+      });
 
-      // If we have more than one item
-      // It means or search query was accurate enough
-      // So we don't erase automatically found metadata
+      // We still have more than one item, so potential mismatch
+      // So we remove singles and blacklisted keywork
 
-      // if (res.tracks.length > 1) {
-      //   metadata.artist   = metadata.artist   || item.artists[0].name;
-      //   metadata.album    = metadata.album    || item.album.name;
-      //   metadata.duration = metadata.duration || item.duration_ms / 1000;
-      //   metadata.title    = metadata.title    || item.name;
-      //   return next();
-      // }
+      if (items.length > 1)
+        items = items.filter(item => {
+          let single = item.album.album_type === 'single';
+          let blacklisted = options.albumKeywordBlacklist.test(item.album.name);
+          return !single && !blacklisted;
+        });
+
+
+      if (items.length > 1) return next(); // Results are not relevant
+
+      let item = items[0];
 
       metadata.artist   = item.artists[0].name;
       metadata.album    = item.album.name;

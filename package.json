@@ -6,7 +6,7 @@
   "scripts": {
     "dist": "babel --out-dir dist src --presets es2015,es2016,stage-2",
     "start": "babel-node --presets es2015,es2016,stage-2",
-    "test": "ava test"
+    "test": "ava src -v"
   },
   "author": "",
   "license": "ISC",

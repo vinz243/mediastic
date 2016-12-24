@@ -48,8 +48,8 @@ module.exports = function (opts) {
       },
       json: true
     }).then(function (res) {
-      if (res.tracks.length === 0)
-        next();
+      if (res.tracks.items.length === 0)
+        return next();
 
       let items = res.tracks.items.filter(function (item) {
         let length = res.tracks.items.length;

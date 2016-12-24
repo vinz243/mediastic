@@ -9,7 +9,7 @@ module.exports = function() {
       if (!exists) return next();
 
       ffmpeg.ffprobe(metadata.path, function(err, data) {
-        if (err){
+        if (err)  {
           return next();
         }
 

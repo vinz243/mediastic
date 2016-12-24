@@ -36,8 +36,7 @@ module.exports = function () {
     let match = fileRegex.exec(name);
 
     // If it doesn't match, we continue flow
-
-    if (!match) return next();
+    if (!match || !match[4]) return next();
 
     // Some torrents release might contain _ instead of regular spaces
     // This is a problem also because those releases tend to skip apostophes

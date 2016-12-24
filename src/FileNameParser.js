@@ -4,7 +4,20 @@
 // If it doesn't work on some track, please feel free to add use case in tests
 
 module.exports = function () {
+
+  // Useless here, but helps keep a consistent API between all middlewares
+
   return function (metadata, next) {
+
+    // We don't try to guess name from path if previous middlewares found it
+    // Later, I could implement some sort of mismatch warning if too different
+
+    if (metadata.title) return next();
+
+    // We remove directories from path
+    // This could have been done in main regex
+    // But for readability it is better now
+
   	let name = metadata.path.replace(/^.*[\\\/]/, '');
 
     // Let's break down this regex:
@@ -16,7 +29,7 @@ module.exports = function () {
     //    (.+?)   non greedy track name (we don't want feat)
 
     // Second part: (feat.+)?\.(mp3|flac)
-    //    (feat.+)? removes teh featuring from track title if it exists
+    //    (feat.+)? removes the featuring from track title if it exists
     //    \.(mp3|flac) matches extension
 
     let fileRegex = /^((\d){0,2}\.?(.+-)?(.+?))(feat.+)?\.(mp3|flac)$/g;

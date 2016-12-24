@@ -18,3 +18,8 @@ test('works for `Hugo Tsr - Jungle Urbaine.mp3`', t => {
 test('works for `06-ACDC-album-back_in_black.flac`', t => {
   t.is(parser('06-ACDC-album-back_in_black.flac'), 'back in black');
 })
+
+test('ignores feat', t => {
+  t.is(parser('02 I need a Doctor feat. Dr Dre & Skylar Grey.flac'),
+    'I need a Doctor');
+})

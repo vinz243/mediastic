@@ -1,9 +1,18 @@
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
-let fileNameParser = require('./fileNameParser');
-let provider = require('./spotify.provider');
+const defaults = require('lodash.defaults');
 
-module.exports = function (file) {
+let fileNameParser = require('./fileNameParser');
+
+let defaultOps = {
+  provider: 'spotify',
+  apiKey: ''
+}
+
+module.exports = function (file, opts) {
+  const options  = defaults(opts, defaultOps);
+  const provider = require(`./${options.provider}.provider`);
+
 	let name = file.replace(/^.*[\\\/]/, '');
 
 	let trackTitle = fileNameParser(name);
@@ -26,7 +35,7 @@ module.exports = function (file) {
 					return fulfill(res);
 				});
 			});
-			
+
 		} else {
 			return Promise.resolve(res);
 		}

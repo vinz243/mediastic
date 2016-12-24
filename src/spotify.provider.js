@@ -13,6 +13,14 @@ module.exports = function () {
           },
           json: true
         }).then(function (res) {
+          if (res.tracks.length === 0) {
+            fulfill({
+              artistName: 'Unknown',
+              albumName: 'Unknown',
+              duration: 0,
+              trackTitle: name
+            });
+          }
           let item = res.tracks.items[0];
 
           let data = {
@@ -21,7 +29,7 @@ module.exports = function () {
             duration: item.duration_ms / 1000,
             trackTitle: item.name
           };
-          fulfill(data);  
+          fulfill(data);
         });
       });
     }

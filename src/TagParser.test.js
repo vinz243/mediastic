@@ -23,6 +23,7 @@ test('parses correctly mp3 file', async t => {
   t.is(metadata.title, 'Cleanin Out My Closet');
   t.is(metadata.artist, 'Eminem');
   t.is(metadata.track, '04');
+  t.is(metadata.bitrate, 158110);
 });
 
 test('continue if file doesn\'t exist', async t => {

@@ -20,6 +20,8 @@ module.exports = function() {
         metadata.title    = tags.title;
         metadata.track    = tags.track;
         metadata.duration = data.format.duration;
+        metadata.bitrate  = data.format.bit_rate;
+        metadata.probed   = data;
 
         next();
       });

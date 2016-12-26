@@ -20,8 +20,19 @@ second is `next` function. This function *has* to be called once and only
 once. Returns nothing.
 
 **`call(path: string)`**: call the middleware stack with `{path: path}` as metadata
-object. Returns a promise, which resolves when stack finished.
+object. Returns a promise, which resolves when stack finished. Promise argument:
 
+```js
+{
+  artist: string, // Artist name
+  album: string, // Album name
+  title: string, // Track name
+  bitrate: int, // Bitrate, in bits
+  duration: int, // Duration in seconds,
+  track: string, // Track number on disc
+  [probed: Object] // FFprobe result, if ffprobe was found and succesful
+}
+```
 **`loadDefaults([opts])`**: configure mediastic with default stack provided with
 Mediastic (`TagParser` => `FileNameParser` => `SpotifyAPI`). `opts` is the options
 passed to middlewares.

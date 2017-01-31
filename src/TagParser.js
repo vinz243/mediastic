@@ -15,12 +15,12 @@ module.exports = function() {
 
         const tags = data.format.tags;
 
-        metadata.artist   = tags.artist;
-        metadata.album    = tags.album;
-        metadata.title    = tags.title;
-        metadata.track    = tags.track;
-        metadata.duration = data.format.duration;
-        metadata.bitrate  = data.format.bit_rate;
+        metadata.artist   = tags.artist || tags.ARTIST;
+        metadata.album    = tags.album || tags.ALBUM;
+        metadata.title    = tags.title || tags.TITLE;
+        metadata.track    = tags.track || tags.TRACK;
+        metadata.duration = data.format.duration || tags.FORMAT.DURATION;
+        metadata.bitrate  = data.format.bit_rate || tags.FORMAT.BIT_RATE;
         metadata.probed   = data;
 
         next();
